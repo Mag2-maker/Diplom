@@ -359,4 +359,3 @@ void MainWindow::see()
     Values obj3;
     obj3.see(ui);
 }
-//////////////////////////////////////////
