@@ -42,14 +42,11 @@ void Pressing:: ITD_ITd(QJsonObject temp, QString TD_k, QString Td_k,Ui::MainWin
                   qDebug()<<TD;
                   if(ui->radioButton_4->isChecked())
                   {
-//                  qDebug()<<Td;
-//                  qDebug()<<TD;
                   IEI_Iei(Td,TD);
                   }
                   else
                       if(ui->radioButton_3->isChecked())
                   {
-                          qDebug()<<"yes";
                       IEI_Iei_v(Td,TD);
                   }
 

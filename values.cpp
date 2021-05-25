@@ -15,7 +15,7 @@ void Values::see(Ui::MainWindow *ui)
 {
 
          Fils objA;
-         QByteArray file2 = objA.loadJson("output(2).json");
+         QByteArray file2 = objA.loadJson(":resource/fils/iron.json");
          QJsonDocument doc = QJsonDocument::fromJson(file2);
          QJsonArray jsonArray = doc.array();
          QJsonObject temp;
@@ -25,9 +25,6 @@ void Values::see(Ui::MainWindow *ui)
               if(ui->comboBox->currentText()==temp.value("Марка").toString())
               {
                     auto map = temp.toVariantMap();
-                    qDebug()<<map;
-                    //auto mn=map.value("E").toString().toDouble();
-                    //qDebug()<<mn;
                     ui->lineEdit_11->setText(QString::number(map.value("E").toString().toDouble()));
                     ui->lineEdit_13->setText(QString::number(map.value("qt").toString().toDouble()));
                     ui->lineEdit_15->setText(QString::number(map.value("v").toString().toDouble()));
@@ -36,12 +33,21 @@ void Values::see(Ui::MainWindow *ui)
               if(ui->comboBox_2->currentText()==temp.value("Марка").toString())
               {
                     auto map = temp.toVariantMap();
-                    qDebug()<<map;
-                    //auto mn=map.value("E").toString().toDouble();
-                    //qDebug()<<mn;
                     ui->lineEdit_12->setText(QString::number(map.value("E").toString().toDouble()));
                     ui->lineEdit_14->setText(QString::number(map.value("qt").toString().toDouble()));
                     ui->lineEdit_16->setText(QString::number(map.value("v").toString().toDouble()));
+              }
+              if(ui->comboBox_7->currentText()==temp.value("Марка").toString())
+              {
+                    auto map = temp.toVariantMap();
+                    ui->lineEdit_29->setText(QString::number(map.value("E").toString().toDouble()));
+                    ui->lineEdit_28->setText(QString::number(map.value("v").toString().toDouble()));
+              }
+              if(ui->comboBox_8->currentText()==temp.value("Марка").toString())
+              {
+                    auto map = temp.toVariantMap();
+                    ui->lineEdit_23->setText(QString::number(map.value("E").toString().toDouble()));
+                    ui->lineEdit_18->setText(QString::number(map.value("v").toString().toDouble()));
               }
          }
 }

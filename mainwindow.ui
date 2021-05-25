@@ -30,7 +30,7 @@
      <enum>QTabWidget::North</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -629,7 +629,7 @@ p, li { white-space: pre-wrap; }
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="resourse.qrc">:/resource/img/схема.png</pixmap>
+       <pixmap resource="resourse.qrc">:/resource/fils/схема.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -817,7 +817,7 @@ p, li { white-space: pre-wrap; }
        <enum>Qt::RichText</enum>
       </property>
       <property name="pixmap">
-       <pixmap resource="resourse.qrc">:/resource/img/схема.png</pixmap>
+       <pixmap resource="resourse.qrc">:/resource/fils/схема.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -1246,6 +1246,72 @@ p, li { white-space: pre-wrap; }
        <string notr="true">background-color:rgb(255, 255, 255)</string>
       </property>
      </widget>
+     <widget class="QComboBox" name="comboBox_7">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>100</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Не выбрано</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_8">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>160</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Не выбрано</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>160</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Материавал втулки</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>100</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Материавал вала</string>
+      </property>
+     </widget>
      <zorder>textEdit_92</zorder>
      <zorder>textEdit_91</zorder>
      <zorder>label_2</zorder>
@@ -1274,6 +1340,10 @@ p, li { white-space: pre-wrap; }
      <zorder>lineEdit_31</zorder>
      <zorder>lineEdit_20</zorder>
      <zorder>lineEdit_26</zorder>
+     <zorder>comboBox_7</zorder>
+     <zorder>comboBox_8</zorder>
+     <zorder>label_13</zorder>
+     <zorder>label_14</zorder>
     </widget>
    </widget>
   </widget>
@@ -1296,7 +1366,7 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>Расчет усилия</string>
+     <string>Справка</string>
     </property>
    </widget>
    <addaction name="menu"/>
@@ -1314,7 +1384,7 @@ p, li { white-space: pre-wrap; }
   <action name="action">
    <property name="icon">
     <iconset resource="resourse.qrc">
-     <normaloff>:/resource/img/save.jpg</normaloff>:/resource/img/save.jpg</iconset>
+     <normaloff>:/resource/fils/save.jpg</normaloff>:/resource/fils/save.jpg</iconset>
    </property>
    <property name="text">
     <string>Сохранить результат в файл</string>
@@ -1323,7 +1393,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_2">
    <property name="icon">
     <iconset resource="resourse.qrc">
-     <normaloff>:/resource/img/quit.png</normaloff>:/resource/img/quit.png</iconset>
+     <normaloff>:/resource/fils/quit.png</normaloff>:/resource/fils/quit.png</iconset>
    </property>
    <property name="text">
     <string>Выйти</string>

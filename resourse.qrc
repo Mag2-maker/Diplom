@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/resource">
-        <file>img/quit.png</file>
-        <file>img/save.jpg</file>
-        <file>img/схема.png</file>
+        <file>fils/quit.png</file>
+        <file>fils/save.jpg</file>
+        <file>fils/схема.png</file>
+        <file>fils/deviations.json</file>
+        <file>fils/iron.json</file>
+        <file>fils/qualifications.json</file>
     </qresource>
 </RCC>

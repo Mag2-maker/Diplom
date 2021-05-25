@@ -17,58 +17,32 @@
 #include <QLayout>
 #define M_PI 3.14159265358979323846
 
-//Menu ob1;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //Menu ob1;
-    //ob1.SaveFile(ui);
+
     ui->radioButton_2->setChecked(true);
     ui->radioButton_4->setChecked(true);
     ui->tabWidget->setCurrentIndex(0);
-//    QStringList list;
-//    list << "5";
-//    QCompleter *completer = new QCompleter(list,this);
-//    ui->lineEdit_4->setCompleter(completer);
-    //QMenuBar * mnu = new QMenuBar(this);
-//        QMenu * pMnu = new QMenu("Test");
-//        pMnu->addAction("Test_3");
-//        pMnu->addAction("Test_2");
-//        pMnu->addAction("Test_1");
-//        mnu->addMenu(pMnu);
-//        mnu->show();
-//        int numTabs = ui->tabWidget->count();
-//        for(int i = 0; i < numTabs; ++i)
-//        {
-//           ui->tabWidget->widget(i)->layout()->setMenuBar(mnu);
-//        }
-
-
-
-
-    //Menu Obi;
-    //int numTabs = ui->tabWidget->count();
-//    qDebug()<<numTabs;
-//for(int i = 0; i < numTabs; ++i)
-//{
-
-//}
-Fils objA;
-QByteArray file2 = objA.loadJson("output(2).json");
-QJsonDocument doc = QJsonDocument::fromJson(file2);
-QJsonArray jsonArray = doc.array();
-QJsonObject temp;
-for (int i=0; i < jsonArray.size(); i++)
-{
-     temp =  jsonArray.at(i).toObject();
-     ui->comboBox->addItem(temp.value("Марка").toString());
-     ui->comboBox_2->addItem(temp.value("Марка").toString());
-}
+    Fils objA;
+    QByteArray file2 = objA.loadJson(":resource/fils/iron.json");
+    QJsonDocument doc = QJsonDocument::fromJson(file2);
+    QJsonArray jsonArray = doc.array();
+    QJsonObject temp;
+    for (int i=0; i < jsonArray.size(); i++)
+    {
+        temp =  jsonArray.at(i).toObject();
+        ui->comboBox->addItem(temp.value("Марка").toString());
+        ui->comboBox_2->addItem(temp.value("Марка").toString());
+        ui->comboBox_7->addItem(temp.value("Марка").toString());
+        ui->comboBox_8->addItem(temp.value("Марка").toString());
+    }
     connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)), SLOT(see()));
     connect(ui->comboBox_2, SIGNAL(currentIndexChanged(QString)), SLOT(see()));
+    connect(ui->comboBox_7, SIGNAL(currentIndexChanged(QString)), SLOT(see()));
+    connect(ui->comboBox_8, SIGNAL(currentIndexChanged(QString)), SLOT(see()));
 
 }
 
@@ -98,7 +72,6 @@ void MainWindow::on_pushButton_clicked()
     double n2 = ui->lineEdit_16->text().toDouble();
 
     double Qm = (k*sqrt(((4.0*M*M)/(d*d))+A*A))/(f*M_PI*d*l)*0.001;
-    //double Qm=(2*M/(M_PI*d*d*l*f));
     qDebug()<<"Qm"<<Qm;
     double c1 = ((1.0+pow(d1/d, 2.0))/(1.0-pow(d1/d, 2.0)))-n1;
     qDebug()<<"c1"<<c1;
@@ -118,143 +91,79 @@ void MainWindow::on_pushButton_clicked()
     else qmax = qmax1;
     double delta_max = (qmax*d*(c1/E1 + c2/E2))*pow(10.0,3.0);
     qDebug()<<"delta max"<<delta_max;
-    // double delta_n_max = delta_max+1.2*(R1+R2);
-    //qDebug()<<"delta n max"<<delta_n_max;
     double TN = delta_max - delta_n_min;
     qDebug()<<"TN"<<TN;
     qDebug()<<TN;
     Fils objA;
     Landing objB;
-    QByteArray file = objA.loadJson("output.json");
-    QByteArray file1 = objA.loadJson("output(1++).json");
+    QByteArray file = objA.loadJson(":resource/fils/qualifications.json");
+    QByteArray file1 = objA.loadJson(":resource/fils/deviations.json");
     QJsonObject temp = objA.TD_Td(file,d);
     QJsonObject temp1 = objA.EI_ei(file1,d);
     objB.Variable(delta_n_min, delta_max,temp1);
-    if(ui->radioButton_2->isChecked())
+    objB.ITD_ITd(temp, TN,ui);
+    QVector<double> kkkl= objB.N;
+    for (const auto& i: kkkl)
     {
-        objB.ITD_ITd(temp, TN,ui);
-        QVector<double> kkkl= objB.N;
-        //qDebug()<<kkkl;
-        //objA.TD_Td(TN,d,file);
-        //double N_max= objA.Ei_ei();
-        //qDebug()<<N_max
-        for (const auto& i: kkkl)
-        {
-            double qmax_p = i*pow(10.0,-6.0)/d*(c1/E1 + c2/E2);
-            double Rn = f*qmax_p*M_PI*d*l;
-            qDebug()<<Rn;
-            double Rrasp = 2.0*f*qmax_p*M_PI*d*l;
-            qDebug()<<Rrasp;
-        }
-
-        QStandardItemModel *model = new QStandardItemModel;
-        QStringList horizontalHeader;
-        horizontalHeader.append("Td_k");
-        horizontalHeader.append("TD_k");
-        horizontalHeader.append("EI");
-        horizontalHeader.append("ES");
-        horizontalHeader.append("ei");
-        horizontalHeader.append("es");
-
-        //Заголовки строк
-        QStringList verticalHeader;
-        for (int i=1; i<=objB.N.size();i++)
-        {
-            verticalHeader.append(QString::number(i));
-        }
-        model->setHorizontalHeaderLabels(horizontalHeader);
-        model->setVerticalHeaderLabels(verticalHeader);
-        int index=0;
-        for (int row=0;row<model->rowCount();row++)
-        {
-            for (int column=0;column < 2;column++)
-            {
-                QStandardItem *item;
-                item = new QStandardItem(QString(objB.keys[index]));
-                item->setTextAlignment(Qt::AlignCenter);
-                model->setItem(row, column, item);
-                index++;
-            }
-        }
-        int index2=0;
-        for (int row=0;row<model->rowCount();row++)
-        {
-            for (int column=2;column < model->columnCount();column++)
-            {
-                QStandardItem *item;
-                item = new QStandardItem(QString(QString::number(objB.ooop[index2])));
-                item->setTextAlignment(Qt::AlignCenter);
-                model->setItem(row, column, item);
-                index2++;
-            }
-        }
-
-        ui->tableView->setModel(model);
-        ui->tableView->resizeRowsToContents();
-        ui->tableView->resizeColumnsToContents();
-        ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+        double qmax_p = i*pow(10.0,-6.0)/d*(c1/E1 + c2/E2);
+        double Rn = f*qmax_p*M_PI*d*l;
+        qDebug()<<Rn;
+        double Rrasp = 2.0*f*qmax_p*M_PI*d*l;
+        qDebug()<<Rrasp;
     }
-    else
+
+    QStandardItemModel *model = new QStandardItemModel;
+    QStringList horizontalHeader;
+    horizontalHeader.append("Td_k");
+    horizontalHeader.append("TD_k");
+    horizontalHeader.append("EI");
+    horizontalHeader.append("ES");
+    horizontalHeader.append("ei");
+    horizontalHeader.append("es");
+
+    //Заголовки строк
+    QStringList verticalHeader;
+    for (int i=1; i<=objB.N.size();i++)
     {
-        if (ui->radioButton->isChecked())
+        verticalHeader.append(QString::number(i));
+    }
+    model->setHorizontalHeaderLabels(horizontalHeader);
+    model->setVerticalHeaderLabels(verticalHeader);
+    int index=0;
+    for (int row=0;row<model->rowCount();row++)
+    {
+        for (int column=0;column < 2;column++)
         {
-            objB.ITD_ITd_v(temp, TN);
-            QStandardItemModel *model = new QStandardItemModel;
-            QStringList horizontalHeader;
-            horizontalHeader.append("Td_k");
-            horizontalHeader.append("TD_k");
-            horizontalHeader.append("EI");
-            horizontalHeader.append("ES");
-            horizontalHeader.append("ei");
-            horizontalHeader.append("es");
-
-            //Заголовки строк
-            QStringList verticalHeader;
-            for (int i=1; i<=objB.N1.size();i++)
-            {
-                verticalHeader.append(QString::number(i));
-            }
-            model->setHorizontalHeaderLabels(horizontalHeader);
-            model->setVerticalHeaderLabels(verticalHeader);
-            int index=0;
-            for (int row=0;row<model->rowCount();row++)
-            {
-                for (int column=0;column < 2;column++)
-                {
-                    QStandardItem *item;
-                    item = new QStandardItem(QString(objB.keys1[index]));
-                    item->setTextAlignment(Qt::AlignCenter);
-                    model->setItem(row, column, item);
-                    index++;
-                }
-            }
-            int index2=0;
-            for (int row=0;row<model->rowCount();row++)
-            {
-                for (int column=2;column < model->columnCount();column++)
-                {
-                    QStandardItem *item;
-                    item = new QStandardItem(QString(QString::number(objB.ooop1[index2])));
-                    item->setTextAlignment(Qt::AlignCenter);
-                    model->setItem(row, column, item);
-                    index2++;
-                }
-            }
-
-            ui->tableView->setModel(model);
-            ui->tableView->resizeRowsToContents();
-            ui->tableView->resizeColumnsToContents();
-            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-            ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-            ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
-
+            QStandardItem *item;
+            item = new QStandardItem(QString(objB.keys[index]));
+            item->setTextAlignment(Qt::AlignCenter);
+            model->setItem(row, column, item);
+            index++;
         }
     }
-    //jjjk=tableView->model();
+    int index2=0;
+    for (int row=0;row<model->rowCount();row++)
+    {
+        for (int column=2;column < model->columnCount();column++)
+        {
+            QStandardItem *item;
+            item = new QStandardItem(QString(QString::number(objB.ooop[index2])));
+            item->setTextAlignment(Qt::AlignCenter);
+            model->setItem(row, column, item);
+            index2++;
+        }
+    }
+
+    ui->tableView->setModel(model);
+    ui->tableView->resizeRowsToContents();
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    objB.keys.clear();
+    objB.ooop.clear();
+    objB.N.clear();
 }
-
 
 void MainWindow::on_pushButton_2_clicked()
 {
@@ -287,8 +196,8 @@ void MainWindow::on_pushButton_2_clicked()
     Td_k.append(ei);
     Fils objA;
     Pressing objB;
-    QByteArray file = objA.loadJson("output.json");
-    QByteArray file1 = objA.loadJson("output(1++).json");
+    QByteArray file = objA.loadJson(":resource/fils/qualifications.json");
+    QByteArray file1 = objA.loadJson(":resource/fils/deviations.json");
     QJsonObject temp = objA.TD_Td(file,d);
     QJsonObject temp1 = objA.EI_ei(file1,d);
     objB.Variable(s,temp1);
@@ -303,7 +212,6 @@ void MainWindow::on_pushButton_2_clicked()
     QString Fmax1,Qmax1;
     Fmax1.setNum(Fmax);
     Qmax1.setNum(Qmax);
-    //item->setTextAlignment(Qt::AlignCenter);
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItem *item;
     QStringList horizontalHeader;
