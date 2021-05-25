@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/resource">
+        <file>img/quit.png</file>
+        <file>img/save.jpg</file>
+        <file>img/схема.png</file>
+    </qresource>
+</RCC>
