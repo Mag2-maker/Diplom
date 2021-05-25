@@ -16,6 +16,7 @@ public:
     double Td=0, TD=0, EI=0, ES=0,es=0, ei=0, N=0,EI1=0, ES1=0,es1=0, ei1=0, N1=0;
     QString s1;
     QJsonObject temp2;
+    ///////////////////////////////
 };
 
 #endif // PRESSING_H
