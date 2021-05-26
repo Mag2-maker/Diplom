@@ -31,7 +31,24 @@ QJsonObject Fils::TD_Td(QByteArray file, double d)
    for (int i=0; i < jsonArray.size(); i++)
      {
          temp =  jsonArray.at(i).toObject();
-        if(d > temp.value("CB.").toString().toDouble() && d <=temp.value("До включ.").toString().toDouble())
+        if(d > temp.value("A").toString().toDouble() && d <=temp.value("B").toString().toDouble())
+        {
+            return temp;
+          // qDebug() << temp;
+            break;
+        }
+   }
+}
+
+QJsonObject Fils::TD_Td_p(QByteArray file, double d)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(file);
+    QJsonArray jsonArray = doc.array();
+    QJsonObject temp;
+   for (int i=0; i < jsonArray.size(); i++)
+     {
+         temp =  jsonArray.at(i).toObject();
+        if(d > temp.value("СВ.").toString().toDouble() && d <=temp.value("До включ.").toString().toDouble())
         {
             return temp;
           // qDebug() << temp;

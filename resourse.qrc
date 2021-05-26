@@ -6,5 +6,6 @@
         <file>fils/deviations.json</file>
         <file>fils/iron.json</file>
         <file>fils/qualifications.json</file>
+        <file>fils/qualifications(2).json</file>
     </qresource>
 </RCC>

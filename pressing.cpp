@@ -18,6 +18,7 @@ void Pressing::Variable (QString s, QJsonObject temp1)
 void Pressing:: ITD_ITd(QJsonObject temp, QString TD_k, QString Td_k,Ui::MainWindow *ui)
 {
      auto map = temp.toVariantMap();
+     qDebug()<<map;
      auto it=map.begin()+1;
      auto it2=it;
                   for(; it!=map.end()-1;)

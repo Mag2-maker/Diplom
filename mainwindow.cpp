@@ -91,16 +91,19 @@ void MainWindow::on_pushButton_clicked()
     else qmax = qmax1;
     double delta_max = (qmax*d*(c1/E1 + c2/E2))*pow(10.0,3.0);
     qDebug()<<"delta max"<<delta_max;
-    double TN = delta_max - delta_n_min;
+    double delta_n_max = delta_max+1.2*(R1+R2);
+    qDebug()<<"delta n max"<<delta_n_max;
+    double TN = delta_n_max - delta_n_min;
     qDebug()<<"TN"<<TN;
     qDebug()<<TN;
     Fils objA;
     Landing objB;
-    QByteArray file = objA.loadJson(":resource/fils/qualifications.json");
+    QByteArray file = objA.loadJson(":resource/fils/qualifications(2).json");
     QByteArray file1 = objA.loadJson(":resource/fils/deviations.json");
     QJsonObject temp = objA.TD_Td(file,d);
+    qDebug()<<temp;
     QJsonObject temp1 = objA.EI_ei(file1,d);
-    objB.Variable(delta_n_min, delta_max,temp1);
+    objB.Variable(delta_n_min, delta_n_max,temp1);
     objB.ITD_ITd(temp, TN,ui);
     QVector<double> kkkl= objB.N;
     for (const auto& i: kkkl)
@@ -198,8 +201,10 @@ void MainWindow::on_pushButton_2_clicked()
     Pressing objB;
     QByteArray file = objA.loadJson(":resource/fils/qualifications.json");
     QByteArray file1 = objA.loadJson(":resource/fils/deviations.json");
-    QJsonObject temp = objA.TD_Td(file,d);
+    QJsonObject temp = objA.TD_Td_p(file,d);
     QJsonObject temp1 = objA.EI_ei(file1,d);
+    qDebug()<<temp;
+    qDebug()<<temp1;
     objB.Variable(s,temp1);
     objB.ITD_ITd(temp, TD_k,Td_k,ui);
     double Nmax=objB.N;

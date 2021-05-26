@@ -20,54 +20,46 @@ void Landing::Variable (double delta_n_min, double delta_max, QJsonObject temp1)
     temp2=temp1;
 }
 
-
 void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
 {
     auto map = temp.toVariantMap();
-    //temp2=temp1;
-    //d=dd;
-    auto it=map.begin()+1;
-    auto it2=it;
-    for(; it!=map.end()-1;)
+    qDebug()<<map;
+    auto it=map.begin()+2, it3=map.begin();
+    for(; it!=map.end();)
     {
-        it2++;
-
         if(it.value().toString().toDouble()<=TN/2)
         {
             Td=it.value().toString().toDouble();
             Td_k=it.key();
+            it3=it;
         }
-        if(it2!=map.end()-1)
-        {
-            if(it2.value().toString().toDouble()<=TN-TD && it2.value().toString().toDouble()>TD)
-            {
-                TD=it2.value().toString().toDouble();
-                TD_k=it2.key();
-            }
-        }
-        //                           if(Td==TD)
-        //                           {
-        //                               it2--;
-        //                               Td=it2.value().toString().toDouble();
-        //                               Td_k=it2.key();
-        //                           }
         it++;
     }
-
-    if(Td==TD)
+    auto it2=map.begin()+2;
+    for(;it2!=map.end();)
     {
-        it2--;
-        TD=it2.value().toString().toDouble();
-        TD_k=it2.key();
+        if(it2.value().toString().toDouble()>=TN/2)
+        {
+            TD=it2.value().toString().toDouble();
+            TD_k=it2.key();
+            break;
+        }
+      it2++;
     }
-    qDebug()<<"TD"<<TD;
-    qDebug()<<"Td"<<Td;
-    if(ui->radioButton_2->isChecked())
+    if(Td==TD)
+        {
+            it3--;
+            Td=it3.value().toString().toDouble();
+            Td_k=it3.key();
+        }
+        qDebug()<<"TD"<<TD;
+        qDebug()<<"Td"<<Td;
+if(ui->radioButton_2->isChecked())
     {
         if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
         {
-            Td_k.remove(0,2);
-            TD_k.remove(0,2);
+            Td_k.remove(0,3);
+            TD_k.remove(0,3);
             IEI_Iei(TD,TD, TD_k, TD_k);
             IEI_Iei(Td,Td, Td_k, Td_k);
             IEI_Iei(TD,Td, TD_k, Td_k);
@@ -75,16 +67,16 @@ void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
         }
         else
         {
-            it=it-2;
-            it2=it2-2;
-            Td=it2.value().toString().toDouble();
-            Td_k=it2.key();
-            TD=it.value().toString().toDouble();
-            TD_k=it.key();
+            it3--;
+            it2--;
+            Td=it3.value().toString().toDouble();
+            Td_k=it3.key();
+            TD=it2.value().toString().toDouble();
+            TD_k=it2.key();
             //                     TD=it2.value().toString().toDouble();
             //                     TD_k=it2.key();
-            Td_k.remove(0,2);
-            TD_k.remove(0,2);
+            Td_k.remove(0,3);
+            TD_k.remove(0,3);
             qDebug()<<"TD"<<TD;
             qDebug()<<"Td"<<Td;
             qDebug()<<"TD_k"<<TD_k;
@@ -101,8 +93,8 @@ void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
         {
             if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
             {
-                Td_k.remove(0,2);
-                TD_k.remove(0,2);
+                Td_k.remove(0,3);
+                TD_k.remove(0,3);
                 IEI_Iei_v(TD,TD, TD_k, TD_k);
                 IEI_Iei_v(Td,Td, Td_k, Td_k);
                 IEI_Iei_v(TD,Td, TD_k, Td_k);
@@ -110,16 +102,16 @@ void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
             }
             else
             {
-                it=it-2;
-                it2=it2-2;
-                Td=it2.value().toString().toDouble();
-                Td_k=it2.key();
-                TD=it.value().toString().toDouble();
-                TD_k=it.key();
+                it3--;
+                it2--;
+                Td=it3.value().toString().toDouble();
+                Td_k=it3.key();
+                TD=it2.value().toString().toDouble();
+                TD_k=it2.key();
                 //                     TD=it2.value().toString().toDouble();
                 //                     TD_k=it2.key();
-                Td_k.remove(0,2);
-                TD_k.remove(0,2);
+                Td_k.remove(0,3);
+                TD_k.remove(0,3);
                 qDebug()<<"TD"<<TD;
                 qDebug()<<"Td"<<Td;
                 qDebug()<<"TD_k"<<TD_k;
@@ -131,29 +123,172 @@ void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
             }
         }
     }
-    //                    qDebug()<<"TD"<<TD;
-    //                    qDebug()<<"Td"<<Td;
-    //                 Td_k.remove(0,2);
-    //                 TD_k.remove(0,2);
-    //                 if (TD+TD<=TN)
-    //                 {
-    //                     IEI_Iei(TD,TD, TD_k, TD_k);
-
-    //                 }
-    //                 if (Td+Td<=TN)
-    //                 {
-    //                     IEI_Iei(Td,Td, Td_k, Td_k);
-    //                 }
-    //                 if (TD+Td<=TN)
-    //                 {
-    //                     IEI_Iei(TD, Td, TD_k, Td_k);
-    //                 }
-    //                 if (Td+TD<=TN)
-    //                 {
-    //                     IEI_Iei(Td, TD, Td_k, TD_k);
-    //                 }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
+//{
+//    auto map = temp.toVariantMap();
+//    //temp2=temp1;
+//    //d=dd;
+//    auto it=map.begin()+1;
+//    auto it2=it;
+//    for(; it!=map.end()-1;)
+//    {
+//        it2++;
+
+//        if(it.value().toString().toDouble()<=TN/2)
+//        {
+//            Td=it.value().toString().toDouble();
+//            Td_k=it.key();
+//        }
+//        if(it2!=map.end()-1)
+//        {
+//            if(it2.value().toString().toDouble()<=TN-TD && it2.value().toString().toDouble()>TD)
+//            {
+//                TD=it2.value().toString().toDouble();
+//                TD_k=it2.key();
+//            }
+//        }
+//        //                           if(Td==TD)
+//        //                           {
+//        //                               it2--;
+//        //                               Td=it2.value().toString().toDouble();
+//        //                               Td_k=it2.key();
+//        //                           }
+//        it++;
+//    }
+
+//    if(Td==TD)
+//    {
+//        it2--;
+//        TD=it2.value().toString().toDouble();
+//        TD_k=it2.key();
+//    }
+//    qDebug()<<"TD"<<TD;
+//    qDebug()<<"Td"<<Td;
+//    if(ui->radioButton_2->isChecked())
+//    {
+//        if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
+//        {
+//            Td_k.remove(0,2);
+//            TD_k.remove(0,2);
+//            IEI_Iei(TD,TD, TD_k, TD_k);
+//            IEI_Iei(Td,Td, Td_k, Td_k);
+//            IEI_Iei(TD,Td, TD_k, Td_k);
+//            IEI_Iei(Td,TD, Td_k, TD_k);
+//        }
+//        else
+//        {
+//            it=it-2;
+//            it2=it2-2;
+//            Td=it2.value().toString().toDouble();
+//            Td_k=it2.key();
+//            TD=it.value().toString().toDouble();
+//            TD_k=it.key();
+//            //                     TD=it2.value().toString().toDouble();
+//            //                     TD_k=it2.key();
+//            Td_k.remove(0,2);
+//            TD_k.remove(0,2);
+//            qDebug()<<"TD"<<TD;
+//            qDebug()<<"Td"<<Td;
+//            qDebug()<<"TD_k"<<TD_k;
+//            qDebug()<<"Td_k"<<Td_k;
+//            IEI_Iei(TD,TD, TD_k, TD_k);
+//            IEI_Iei(Td,Td, Td_k, Td_k);
+//            IEI_Iei(TD,Td, TD_k, Td_k);
+//            IEI_Iei(Td,TD, Td_k, TD_k);
+//        }
+//    }
+//    else
+//    {
+//        if (ui->radioButton->isChecked())
+//        {
+//            if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
+//            {
+//                Td_k.remove(0,2);
+//                TD_k.remove(0,2);
+//                IEI_Iei_v(TD,TD, TD_k, TD_k);
+//                IEI_Iei_v(Td,Td, Td_k, Td_k);
+//                IEI_Iei_v(TD,Td, TD_k, Td_k);
+//                IEI_Iei_v(Td,TD, Td_k, TD_k);
+//            }
+//            else
+//            {
+//                it=it-2;
+//                it2=it2-2;
+//                Td=it2.value().toString().toDouble();
+//                Td_k=it2.key();
+//                TD=it.value().toString().toDouble();
+//                TD_k=it.key();
+//                //                     TD=it2.value().toString().toDouble();
+//                //                     TD_k=it2.key();
+//                Td_k.remove(0,2);
+//                TD_k.remove(0,2);
+//                qDebug()<<"TD"<<TD;
+//                qDebug()<<"Td"<<Td;
+//                qDebug()<<"TD_k"<<TD_k;
+//                qDebug()<<"Td_k"<<Td_k;
+//                IEI_Iei_v(TD,TD, TD_k, TD_k);
+//                IEI_Iei_v(Td,Td, Td_k, Td_k);
+//                IEI_Iei_v(TD,Td, TD_k, Td_k);
+//                IEI_Iei_v(Td,TD, Td_k, TD_k);
+//            }
+//        }
+//    }
+//    //                    qDebug()<<"TD"<<TD;
+//    //                    qDebug()<<"Td"<<Td;
+//    //                 Td_k.remove(0,2);
+//    //                 TD_k.remove(0,2);
+//    //                 if (TD+TD<=TN)
+//    //                 {
+//    //                     IEI_Iei(TD,TD, TD_k, TD_k);
+
+//    //                 }
+//    //                 if (Td+Td<=TN)
+//    //                 {
+//    //                     IEI_Iei(Td,Td, Td_k, Td_k);
+//    //                 }
+//    //                 if (TD+Td<=TN)
+//    //                 {
+//    //                     IEI_Iei(TD, Td, TD_k, Td_k);
+//    //                 }
+//    //                 if (Td+TD<=TN)
+//    //                 {
+//    //                     IEI_Iei(Td, TD, Td_k, TD_k);
+//    //                 }
+
+//}
 
 //void Landing::ITD_ITd_v(QJsonObject temp, double TN)
 //{
@@ -316,8 +451,8 @@ void Landing::IEI_Iei_v(double ITD, double ITd, QString ITD_k, QString ITd_k)
     }
     qDebug()<<"ei"<<ei;
     ei_k1='h';
-    EI_k1.append(ITd_k);
-    ei_k1.append(ITD_k);
+    EI_k1.append(ITD_k);
+    ei_k1.append(ITd_k);
     es=ei+ITd;
     qDebug()<<"es"<<es;
     //qDebug()<<es;
