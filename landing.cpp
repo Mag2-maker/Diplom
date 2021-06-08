@@ -13,16 +13,17 @@ Landing::Landing()
 }
 
 
-void Landing::Variable (double delta_n_min, double delta_max, QJsonObject temp1)
+void Landing::Variable (double delta_n_min, double delta_max, QJsonObject temp1,QJsonObject temp)
 {
     delta_n_min_1= delta_n_min;
     delta_max_1=delta_max;
-    temp2=temp1;
+   _temp1=temp1;
+    _temp=temp;
 }
 
-void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
+void Landing::ITD_ITd(double TN, bool _radio_button)
 {
-    auto map = temp.toVariantMap();
+    auto map = _temp.toVariantMap();
     qDebug()<<map;
     auto it=map.begin()+2, it3=map.begin();
     for(; it!=map.end();)
@@ -54,7 +55,7 @@ void Landing::ITD_ITd(QJsonObject temp, double TN,Ui::MainWindow *ui)
         }
         qDebug()<<"TD"<<TD;
         qDebug()<<"Td"<<Td;
-if(ui->radioButton_2->isChecked())
+if(_radio_button)
     {
         if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
         {
@@ -89,7 +90,7 @@ if(ui->radioButton_2->isChecked())
     }
     else
     {
-        if (ui->radioButton->isChecked())
+        if (!_radio_button)
         {
             if(TD+TD<=TN && Td+Td<=TN && TD+Td<=TN && Td+TD<=TN )
             {
@@ -392,7 +393,7 @@ void Landing::IEI_Iei(double ITD, double ITd, QString ITD_k, QString ITd_k)
     qDebug()<<ES;
     double ei_r=ES+delta_n_min_1,ei=0;
     qDebug()<<ei_r;
-    auto map1 = temp2.toVariantMap();
+    auto map1 = _temp1.toVariantMap();
     for(auto it=map1.begin()+2; it!=map1.end();it++)
     {
         if(it.value().toString().toDouble()>=ei_r && it.value().toString().toDouble()>=ei)
@@ -437,7 +438,7 @@ void Landing::IEI_Iei_v(double ITD, double ITd, QString ITD_k, QString ITd_k)
     qDebug()<<"ES"<<ES;
     double ei_r=ES+delta_n_min_1,ei=0, ei1=0;
     qDebug()<<"ei_r"<<ei_r;
-    auto map3 = temp2.toVariantMap();
+    auto map3 = _temp1.toVariantMap();
     QString EI_k1;
     for(auto it=map3.begin()+2; it!=map3.end();it++)
     {

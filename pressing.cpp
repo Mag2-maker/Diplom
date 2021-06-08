@@ -2,6 +2,7 @@
 #include "QJsonObject"
 #include "landing.h"
 #include "ui_mainwindow.h"
+#include "QDebug"
 
 Pressing::Pressing()
 {
@@ -15,7 +16,7 @@ void Pressing::Variable (QString s, QJsonObject temp1)
    temp2=temp1;
 }
 
-void Pressing:: ITD_ITd(QJsonObject temp, QString TD_k, QString Td_k,Ui::MainWindow *ui)
+void Pressing:: ITD_ITd(QJsonObject temp, QString TD_k, QString Td_k,bool _radio_button)
 {
      auto map = temp.toVariantMap();
      qDebug()<<map;
@@ -41,12 +42,12 @@ void Pressing:: ITD_ITd(QJsonObject temp, QString TD_k, QString Td_k,Ui::MainWin
                   }
                   qDebug()<<Td;
                   qDebug()<<TD;
-                  if(ui->radioButton_4->isChecked())
+                  if(_radio_button)
                   {
                   IEI_Iei(Td,TD);
                   }
                   else
-                      if(ui->radioButton_3->isChecked())
+                      if(!_radio_button)
                   {
                       IEI_Iei_v(Td,TD);
                   }

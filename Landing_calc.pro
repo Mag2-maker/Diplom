@@ -30,15 +30,18 @@ SOURCES += \
         mainwindow.cpp \
         menu.cpp \
         pressing.cpp \
-        values.cpp
+        values.cpp \
+        windowcontroller.cpp
 
 HEADERS += \
+        data_struct.h \
         fils.h \
         landing.h \
         mainwindow.h \
         menu.h \
         pressing.h \
-        values.h
+        values.h \
+        windowcontroller.h
 
 FORMS += \
         mainwindow.ui
